@@ -136,6 +136,10 @@ app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/users", usersRoutes);
 
+app.get("/", (req, res) => {
+  res.json("OOOO server is running!");
+});
+
 // Socket.IO for real-time chat
 io.on("connection", (socket) => {
   // console.log("User connected:", socket.id);
