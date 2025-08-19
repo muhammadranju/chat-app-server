@@ -1,19 +1,7 @@
 const express = require("express");
 const Message = require("../models/Message");
-const jwt = require("jsonwebtoken");
+const authMiddleware = require("../middleware/authMiddleware");
 const router = express.Router();
-
-// Middleware to verify JWT
-const authMiddleware = (req, res, next) => {
-  const token = req.headers.authorization?.split(" ")[1];
-  if (!token) return res.status(401).json({ error: "No token" });
-
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) return res.status(403).json({ error: "Invalid token" });
-    req.user = user;
-    next();
-  });
-};
 
 // ✅ Get messages between two users
 router.get("/:receiverId", authMiddleware, async (req, res) => {
