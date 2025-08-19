@@ -58,29 +58,32 @@ io.on("connection", (socket) => {
   });
 
   // Handle chat messages
-  socket.on("chatMessage", async ({ room, message, sender, receiver }) => {
-    // Send the chat message to the room
-    io.to(room).emit("message", { room, message, sender });
-    console.log(room, message, sender, receiver);
+  socket.on(
+    "chatMessage",
+    async ({ room, message, sender, receiver, timestamp }) => {
+      // Send the chat message to the room
+      io.to(room).emit("message", { room, message, sender, timestamp });
+      console.log(room, message, sender, receiver);
 
-    const sentMessage = {
-      sender: { _id: sender._id, username: sender.username },
-      receiver: { _id: receiver._id, username: receiver.username },
-      content: message,
-      timestamp: new Date(),
-    };
+      const sentMessage = {
+        sender: { _id: sender._id, username: sender.username },
+        receiver: { _id: receiver._id, username: receiver.username },
+        content: message,
+        timestamp: timestamp,
+      };
 
-    const msg = await Message.create(sentMessage);
+      const msg = await Message.create(sentMessage);
 
-    console.log(msg);
+      console.log(msg);
 
-    // Send a notification to all users except sender
-    io.sockets.sockets.forEach((s) => {
-      if (s.id !== socket.id) {
-        s.emit("nonfiction", { username: sender.username, message });
-      }
-    });
-  });
+      // Send a notification to all users except sender
+      io.sockets.sockets.forEach((s) => {
+        if (s.id !== socket.id) {
+          s.emit("nonfiction", { username: sender.username, message });
+        }
+      });
+    }
+  );
 
   // Handle typing indicator
   socket.on("typing", ({ room, username }) => {
