@@ -5,10 +5,10 @@ const cors = require("cors");
 const http = require("http");
 const fs = require("fs");
 const { Server } = require("socket.io");
-const authRoutes = require("./routes/auth");
-const messageRoutes = require("./routes/messages");
-const usersRoutes = require("./routes/users");
-const Message = require("./models/Message");
+const authRoutes = require("./src/routes/auth");
+const messageRoutes = require("./src/routes/messages");
+const usersRoutes = require("./src/routes/users");
+const Message = require("./src/models/Message");
 const morgan = require("morgan");
 
 const app = express();
