@@ -23,7 +23,10 @@ mongoose
 
 app.use([
   cors({
-    origin: "*",
+    origin: [
+      "http://localhost:3000",
+      "https://chat-app-client-kappa-henna.vercel.app",
+    ],
   }),
   express.json(),
   morgan("dev"),
