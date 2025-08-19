@@ -43,7 +43,7 @@ app.get("/", (req, res) => {
 
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: "https://chat-app-client-kappa-henna.vercel.app",
     methods: ["GET", "POST"],
   },
 });
